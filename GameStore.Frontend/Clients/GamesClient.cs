@@ -4,10 +4,9 @@ namespace GameStore.Frontend.Clients;
 
 public class GamesClient
 {
-
 	private readonly List<GameSummary> games =
-			[
-			new(){
+	[
+				new(){
 		Id= 1,
 		Name = "Street Fighter II",
 		Genre = "Fighting",
@@ -29,7 +28,25 @@ public class GamesClient
 		Price = 69.99M,
 		ReleaseDate = new DateOnly(2022, 9, 27)
 	}
-			];
+	];
+
+	private readonly Genre[] genres = new GenresClient().GetGenres();
 
 	public GameSummary[] GetGames() => [.. games];
+
+	public void AddGame(GameDetails game)
+	{
+		ArgumentException.ThrowIfNullOrWhiteSpace(game.GenreId);
+		var genre = genres.Single(genre => genre.Id == int.Parse(game.GenreId));
+		var gameSummary = new GameSummary
+		{
+			Id = games.Count + 1,
+			Name = game.Name,
+			Genre = genre.Name,
+			Price = game.Price,
+			ReleaseDate = game.ReleaseDate
+		};
+
+		games.Add(gameSummary);
+	}
 }
