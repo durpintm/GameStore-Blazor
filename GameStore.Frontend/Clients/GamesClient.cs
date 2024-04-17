@@ -31,7 +31,6 @@ public class GamesClient
 	];
 
 	private readonly Genre[] genres = new GenresClient().GetGenres();
-
 	public GameSummary[] GetGames() => [.. games];
 
 	public void AddGame(GameDetails game)
